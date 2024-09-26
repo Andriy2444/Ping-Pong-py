@@ -78,6 +78,28 @@ class Paddle:
         self.x = 3 + res / acceleration
 
 
+def result():
+    global res
+    res += 1
+    print(res)
+    lbl1.config(text=res)
+
+
+def run_game():
+    while True:
+        if not ball.hit_bottom:
+            ball.draw()
+            paddle.draw()
+        else:
+            canvas.create_text(250, 150, text='Game Over\n:(', font=("Times New Roman", 40))
+            tk.update()
+            time.sleep(3)
+            break
+        tk.update_idletasks()
+        tk.update()
+        time.sleep(0.01)
+
+
 tk = Tk()
 tk.title("Game")
 tk.resizable(False, False)
@@ -89,23 +111,9 @@ res = 0
 acceleration = 100
 
 
-def result():
-    global res
-    res += 1
-    print(res)
-    lbl1.config(text=res)
-
-
 lbl1 = Label(tk, text=f"{0}", font=("Impact", 20))
 lbl1.place(x=15, y=15)
 paddle = Paddle(canvas, 'red')
 ball = Ball(canvas, paddle, 'red')
-while 1:
-    if not ball.hit_bottom:
-        ball.draw()
-        paddle.draw()
-    else:
-        canvas.create_text(250, 150, text='Game Over\n:(', font=("Times New Roman", 40))
-    tk.update_idletasks()
-    tk.update()
-    time.sleep(0.01)    
+
+run_game()
