@@ -23,13 +23,13 @@ Ensure you have Python installed on your system.
 ### **Clone the Repository:**
 ```bash
 git clone https://github.com/yourusername/pong-game.git
-cd pong-game
+cd Ping-Pong-py
 ```
 
 
 ### **Run the Game:**
 ```bash
-python pong_game.py
+python game.py
 ```
 
 
