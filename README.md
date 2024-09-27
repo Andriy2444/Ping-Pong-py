@@ -22,7 +22,7 @@ Ensure you have Python installed on your system.
 
 ### **Clone the Repository:**
 ```bash
-git clone https://github.com/yourusername/pong-game.git
+git clone https://github.com/Andriy2444/Ping-Pong-py.git
 cd Ping-Pong-py
 ```
 
