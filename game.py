@@ -3,60 +3,73 @@ import random
 import time
 
 
-# Create class ball.
+# Create class Ball.
 
 class Ball:
     def __init__(self, canvas_ball, paddle_ball, color):
         self.canvas = canvas_ball
         self.paddle = paddle_ball
         self.id = canvas_ball.create_oval(10, 10, 25, 25, fill=color)  # Create oval (id).
-        self.canvas.move(self.id, 200, 275)
-        starts = [-3, -2, -1, 1, 2, 3]
-        random.shuffle(starts)
-        self.x = starts[0]
-        self.y = -3
+        self.canvas.move(self.id, 200, 275)  # Start position of the ball.
+        starts = [-3, -2, -1, 1, 2, 3]  # Possible starting speeds for the ball.
+        random.shuffle(starts)  # Randomize the starting speed.
+        self.x = starts[0]  # Set horizontal speed.
+        self.y = -3  # Set initial vertical speed.
         self.canvas_height = self.canvas.winfo_height()
         self.canvas_width = self.canvas.winfo_width()
         self.hit_bottom = False
 
-    #
+    # Check if the ball hits the paddle.
     def hit_paddle(self, pos):
-        paddle_pos = self.canvas.coords(self.paddle.id)
+        paddle_pos = self.canvas.coords(self.paddle.id)  # Get paddle position.
+
+        # Check for collision with paddle.
         if pos[2] >= paddle_pos[0] and pos[0] <= paddle_pos[2]:
             if paddle_pos[1] <= pos[3] <= paddle_pos[3]:
                 return True
         return False
 
+    # Move the ball and handle collisions.
     def draw(self):
         self.canvas.move(self.id, self.x, self.y)
         pos = self.canvas.coords(self.id)
+        # Check for collision with the top of the canvas.
         if pos[1] <= 0:
-            self.y = 3 + res / acceleration
+            self.y = startSpeed + score / acceleration
+        # Check if the ball hits the bottom.
         if pos[3] >= self.canvas_height:
             self.hit_bottom = True
+        # Check if the ball hits the paddle.
         if self.hit_paddle(pos):
-            self.y = -5.5 - res / acceleration
+            self.y = -startSpeed - 2 - (score / acceleration)  # Subtract 2 for additional acceleration after hitting
             result()
+        # Check for collision with the left wall.
         if pos[0] <= 0:
-            self.x = 3 + res / acceleration
+            self.x = startSpeed + score / acceleration
+        # Check for collision with the right wall.
         if pos[2] >= self.canvas_width:
-            self.x = -3 - res / acceleration
+            self.x = -startSpeed - score / acceleration
 
 
-# Create class paddle_ball.
+# Create class Paddle.
 class Paddle:
     def __init__(self, canvas_paddle, color):
         self.canvas = canvas_paddle
-        self.id = canvas_paddle.create_rectangle(0, 0, 100, 10, fill=color)
-        self.canvas.move(self.id, 200, 300)
+        self.id = canvas_paddle.create_rectangle(0, 0, 100, 10, fill=color)  # Create the paddle.
+        self.canvas.move(self.id, 200, 300)  # Start position of the paddle.
         self.x = 0
         self.canvas_width = self.canvas.winfo_width()
+
+        # Bind keys for paddle movement.
+        # Turn left
         self.canvas.bind_all('<KeyPress-Left>', self.turn_left)
         self.canvas.bind_all('<KeyPress-a>', self.turn_left)
 
+        # Stand
         self.canvas.bind_all('<KeyPress-Down>', self.stand)
         self.canvas.bind_all('<KeyPress-s>', self.stand)
 
+        # Turn Right
         self.canvas.bind_all('<KeyPress-Right>', self.turn_right)
         self.canvas.bind_all('<KeyPress-d>', self.turn_right)
 
@@ -68,52 +81,62 @@ class Paddle:
         elif pos[2] >= self.canvas_width:
             self.x = 0
 
+    # Move paddle left.
     def turn_left(self, evt):
-        self.x = -3 - res / acceleration
+        self.x = -startSpeed - score / acceleration
 
+    # Stop paddle movement.
     def stand(self, evt):
         self.x = 0
 
+    # Move paddle right.
     def turn_right(self, evt):
-        self.x = 3 + res / acceleration
+        self.x = startSpeed + score / acceleration
 
 
+# Function to update the score.
 def result():
-    global res
-    res += 1
-    print(res)
-    lbl1.config(text=res)
+    global score
+    score += 1
+    print(score)
+    lbl1.config(text=score)
 
 
+# Main game loop.
 def run_game():
     while True:
-        if not ball.hit_bottom:
-            ball.draw()
-            paddle.draw()
+        if not ball.hit_bottom:  # Continue until the ball hits the bottom.
+            ball.draw()  # Draw the ball.
+            paddle.draw()  # Draw the paddle.
         else:
+            # Game end
             canvas.create_text(250, 150, text='Game Over\n:(', font=("Times New Roman", 40))
             tk.update()
             time.sleep(3)
             break
         tk.update_idletasks()
         tk.update()
-        time.sleep(0.01)
+        time.sleep(0.01)  # Delay to control game speed.
 
 
+# Initialize the Tkinter window.
 tk = Tk()
 tk.title("Game")
-tk.resizable(False, False)
+tk.resizable(False, False)  # Disable window resizing.x
 tk.wm_attributes("-topmost", 1)
 canvas = Canvas(tk, width=500, height=400, bd=0, highlightthickness=0)
 canvas.pack()
 tk.update()
-res = 0
-acceleration = 100
+score = 0
+startSpeed = 3
+acceleration = 100  # Set acceleration factor.
+# Game speed = startSpeed + (score/acceleration)
+# Game speed is 3.2 = 3 + (20/100)
 
 
-lbl1 = Label(tk, text=f"{0}", font=("Impact", 20))
-lbl1.place(x=15, y=15)
-paddle = Paddle(canvas, 'red')
-ball = Ball(canvas, paddle, 'red')
+lbl1 = Label(tk, text=f"{0}", font=("Impact", 20))  # Create a label for the score.
+lbl1.place(x=15, y=15)  # Position the score label.
+paddle = Paddle(canvas, 'red')  # Create the paddle.
+ball = Ball(canvas, paddle, 'red')  # Create the ball.
 
 run_game()
