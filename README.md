@@ -4,7 +4,9 @@
 
 ## **Overview**
 This project is a simple Pong-style game built using Python's Tkinter library. Players control a paddle to bounce a ball and prevent it from falling off the screen. The game features increasing difficulty as the player scores points, enhancing the challenge over time.
-![зображення_2024-09-27_162346935](https://github.com/user-attachments/assets/cc878d6e-95b2-48f9-ac34-6e7272674864)
+
+![371548983-cc878d6e-95b2-48f9-ac34-6e7272674864](https://github.com/user-attachments/assets/367c9e91-9b5a-4bfd-8fed-dd2d9cd392a0)
+
 
 
 ## **Features**
