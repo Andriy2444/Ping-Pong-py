@@ -131,7 +131,7 @@ score = 0
 startSpeed = 3
 acceleration = 100  # Set acceleration factor.
 # Game speed = startSpeed + (score/acceleration)
-# Game speed is 3.2 = 3 + (20/100)
+# Game speed is 3.2 when score is 20(3 + (20/100) = 3.2)
 
 
 lbl1 = Label(tk, text=f"{0}", font=("Impact", 20))  # Create a label for the score.
