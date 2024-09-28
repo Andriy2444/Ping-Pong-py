@@ -73,6 +73,9 @@ class Paddle:
         self.canvas.bind_all('<KeyPress-Right>', self.turn_right)
         self.canvas.bind_all('<KeyPress-d>', self.turn_right)
 
+        # Bind mouse movement to control paddle
+        self.canvas.bind_all('<Motion>', self.mouse_move)
+
     def draw(self):
         self.canvas.move(self.id, self.x, 0)
         pos = self.canvas.coords(self.id)
@@ -93,6 +96,13 @@ class Paddle:
     def turn_right(self, evt):
         self.x = startSpeed + score / acceleration
 
+    # Move paddle according to mouse position.
+    def mouse_move(self, evt):
+        paddle_pos = self.canvas.coords(self.id)
+        mouse_x = evt.x
+        paddle_width = paddle_pos[2] - paddle_pos[0]
+        # Move the paddle to follow the mouse, keeping it centered under the cursor
+        self.canvas.coords(self.id, mouse_x - paddle_width / 2, paddle_pos[1], mouse_x + paddle_width / 2, paddle_pos[3])
 
 # Function to update the score.
 def result():
@@ -126,6 +136,7 @@ tk.resizable(False, False)  # Disable window resizing.x
 tk.wm_attributes("-topmost", 1)
 canvas = Canvas(tk, width=500, height=400, bd=0, highlightthickness=0)
 canvas.pack()
+canvas.config(cursor="none")
 tk.update()
 score = 0
 startSpeed = 3
