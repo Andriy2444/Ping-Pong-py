@@ -10,7 +10,7 @@ This project is a simple Pong-style game built using Python's Tkinter library. P
 
 
 ## **Features**
-- **Interactive Gameplay:** Use arrow keys or WASD keys to control the paddle.
+- **Interactive Gameplay:** Use arrow keys, mouse or WASD keys to control the paddle.
 - **Dynamic Difficulty:** The speed of the ball and paddle increases as the player scores points, keeping the game engaging.
 - **Score Tracking:** The current score is displayed on the screen and updates in real time.
 - **Game Over Screen:** When the ball hits the bottom of the canvas, a "Game Over" message appears.
@@ -41,6 +41,7 @@ python game.py
 - **Left Arrow / A**: Move paddle left
 - **Right Arrow / D**: Move paddle right
 - **Down Arrow / S**: Stop paddle movement
+- **Mouse**: follows the cursor
 
   
 ### **Contributing**
